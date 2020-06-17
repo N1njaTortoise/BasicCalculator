@@ -8,6 +8,9 @@ namespace BasicCalculator
 {
     class CalculatorEngine
     {
+        Input _inputFromUser = new Input();
+        Calculate _calculateInput = new Calculate();
+
         private double input1;
         private double input2;
         private string operation;
@@ -15,46 +18,36 @@ namespace BasicCalculator
 
         public void CalculatorStart()
         {
-            while (true)
+            do
             {
-                UserInput();
+                ApplicationTitle();
+                TitleMenu();
 
-                sum = Calculate();
+                input1 = _inputFromUser.UserInputNumbers();
+                input2 = _inputFromUser.UserInputNumbers();
 
-                Console.WriteLine($"The sum of {input1}{operation}{input2}={sum}");
-            }
+                operation = _inputFromUser.UserInputOperation();
+
+                sum = _calculateInput.CalculateInput(operation, input1, input2);
+
+                Console.WriteLine($"\nThe sum of {input1} {operation} {input2} = {sum}");
+
+            } while (_inputFromUser.AnotherCalcualtion());
         }
 
-        private void UserInput()
+        private void ApplicationTitle()
         {
-            Console.Write("Enter a number: ");
-            input1 = int.Parse(Console.ReadLine());
-
-            Console.Write("Enter another number: ");
-            input2 = int.Parse(Console.ReadLine());
-
-            Console.Write("Enter the type of operation to do (+, -, *, /): ");
-            operation = Console.ReadLine();
-
-
+            Console.Title = "Basic Calculator";
         }
 
-        private double Calculate()
+        private void TitleMenu()
         {
-            switch (operation)
-            {
-                case "+":
-                    return input1 + input2;
-                case "-":
-                    return input1 - input2;
-                case "*":
-                    return input1 * input2;
-                case "/":
-                    return input1 / input2;
-                default:
-                    Console.WriteLine("The incorrect operation type was used.");
-                    return 0;
-            }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Basic Calculator");
+            Console.ResetColor();
+            Console.WriteLine(new string('*', 50));
         }
+
+        
     }
 }
